@@ -1,0 +1,636 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-09-18T16:58:28.648Z",
+  "skills": [
+    {
+      "id": 1,
+      "names": {
+        "en": "Acceleration Burst",
+        "ptPT": "Explosão de Aceleração",
+        "ptBR": "Explosão de aceleração"
+      },
+      "count": 0
+    },
+    {
+      "id": 2,
+      "names": {
+        "en": "Acrobatic Clear",
+        "ptPT": "Desvio Acrobático",
+        "ptBR": "Acrobático Claro"
+      },
+      "count": 0
+    },
+    {
+      "id": 3,
+      "names": {
+        "en": "Acrobatic Finishing",
+        "ptPT": "Finalização Acrobática",
+        "ptBR": "Acabamento Acrobático"
+      },
+      "count": 0
+    },
+    {
+      "id": 4,
+      "names": {
+        "en": "Aerial Fort",
+        "ptPT": "Forte Aérea",
+        "ptBR": "Forte Aéreo"
+      },
+      "count": 0
+    },
+    {
+      "id": 5,
+      "names": {
+        "en": "Aerial Superiority",
+        "ptPT": "Superioridade Aérea",
+        "ptBR": "Superioridade Aérea"
+      },
+      "count": 0
+    },
+    {
+      "id": 6,
+      "names": {
+        "en": "Attack Trigger",
+        "ptPT": "Gatilho de Ataque",
+        "ptBR": "Gatilho de Ataque"
+      },
+      "count": 0
+    },
+    {
+      "id": 7,
+      "names": {
+        "en": "Blitz Curler",
+        "ptPT": "Curva Relâmpago",
+        "ptBR": "Modelador Blitz"
+      },
+      "count": 0
+    },
+    {
+      "id": 8,
+      "names": {
+        "en": "Blocker",
+        "ptPT": "Bloqueador",
+        "ptBR": "Bloqueador"
+      },
+      "count": 0
+    },
+    {
+      "id": 9,
+      "names": {
+        "en": "Bullet Header",
+        "ptPT": "Cabeçada Potente",
+        "ptBR": "Cabeçalho do marcador"
+      },
+      "count": 0
+    },
+    {
+      "id": 10,
+      "names": {
+        "en": "Captaincy",
+        "ptPT": "Capitania",
+        "ptBR": "Capitania"
+      },
+      "count": 0
+    },
+    {
+      "id": 11,
+      "names": {
+        "en": "Chip Shot Control",
+        "ptPT": "Controlo de Chapéu",
+        "ptBR": "Controle de tiro de chip"
+      },
+      "count": 0
+    },
+    {
+      "id": 12,
+      "names": {
+        "en": "Cross Over Turn",
+        "ptPT": "Giro Cruzado",
+        "ptBR": "Cruzamento"
+      },
+      "count": 0
+    },
+    {
+      "id": 13,
+      "names": {
+        "en": "Cut Behind Turn",
+        "ptPT": "Corte Atrás",
+        "ptBR": "Corte atrás da curva"
+      },
+      "count": 0
+    },
+    {
+      "id": 14,
+      "names": {
+        "en": "Dipping Shots",
+        "ptPT": "Remates com Queda",
+        "ptBR": "Mergulhando"
+      },
+      "count": 0
+    },
+    {
+      "id": 15,
+      "names": {
+        "en": "Double Touch",
+        "ptPT": "Toque Duplo",
+        "ptBR": "Toque duplo"
+      },
+      "count": 0
+    },
+    {
+      "id": 16,
+      "names": {
+        "en": "Early Cross",
+        "ptPT": "Cruzamento Antecipado",
+        "ptBR": "Cruz Antecipada"
+      },
+      "count": 0
+    },
+    {
+      "id": 17,
+      "names": {
+        "en": "Edged Crossing",
+        "ptPT": "Cruzamento com Efeito",
+        "ptBR": "Cruzamento afiado"
+      },
+      "count": 0
+    },
+    {
+      "id": 18,
+      "names": {
+        "en": "Fighting Spirit",
+        "ptPT": "Espírito de Luta",
+        "ptBR": "Espírito de Luta"
+      },
+      "count": 0
+    },
+    {
+      "id": 19,
+      "names": {
+        "en": "First Time Shot",
+        "ptPT": "Remate de Primeira",
+        "ptBR": "Primeira foto"
+      },
+      "count": 0
+    },
+    {
+      "id": 20,
+      "names": {
+        "en": "Flip Flap",
+        "ptPT": "Elástico",
+        "ptBR": "Flip Flap"
+      },
+      "count": 0
+    },
+    {
+      "id": 21,
+      "names": {
+        "en": "Fortress",
+        "ptPT": "Fortaleza",
+        "ptBR": "Fortaleza"
+      },
+      "count": 0
+    },
+    {
+      "id": 22,
+      "names": {
+        "en": "GK Directing Defense",
+        "ptPT": "GR Dirige Defesa",
+        "ptBR": "GK Direcionando Defesa"
+      },
+      "count": 0
+    },
+    {
+      "id": 23,
+      "names": {
+        "en": "GK High Punt",
+        "ptPT": "GR Punt Alto",
+        "ptBR": "Punt Alto GK"
+      },
+      "count": 0
+    },
+    {
+      "id": 24,
+      "names": {
+        "en": "GK Long Throw",
+        "ptPT": "GR Lançamento Longo",
+        "ptBR": "Lançamento longo do GK"
+      },
+      "count": 0
+    },
+    {
+      "id": 25,
+      "names": {
+        "en": "GK Penalty Saver",
+        "ptPT": "GR Defesa de Penáltis",
+        "ptBR": "Protetor de pênaltis GK"
+      },
+      "count": 0
+    },
+    {
+      "id": 26,
+      "names": {
+        "en": "Game-Changing Pass",
+        "ptPT": "Passe Decisivo",
+        "ptBR": "Passe para mudar o jogo"
+      },
+      "count": 0
+    },
+    {
+      "id": 27,
+      "names": {
+        "en": "Gamesmanship",
+        "ptPT": "Jogos de Cintura",
+        "ptBR": "Habilidade de jogo"
+      },
+      "count": 0
+    },
+    {
+      "id": 28,
+      "names": {
+        "en": "GK Spirit Roar",
+        "ptPT": "GR Rugido de Espírito",
+        "ptBR": "Gk Espírito Rugido"
+      },
+      "count": 0
+    },
+    {
+      "id": 29,
+      "names": {
+        "en": "Heading",
+        "ptPT": "Cabeceio",
+        "ptBR": "Cabeçalho"
+      },
+      "count": 0
+    },
+    {
+      "id": 30,
+      "names": {
+        "en": "Heel Trick",
+        "ptPT": "Passe de Letra",
+        "ptBR": "Truque de calcanhar"
+      },
+      "count": 0
+    },
+    {
+      "id": 31,
+      "names": {
+        "en": "Incisive Run",
+        "ptPT": "Corrida Incisiva",
+        "ptBR": "Corrida Incisiva"
+      },
+      "count": 0
+    },
+    {
+      "id": 32,
+      "names": {
+        "en": "Interception",
+        "ptPT": "Interceção",
+        "ptBR": "Interceptação"
+      },
+      "count": 0
+    },
+    {
+      "id": 33,
+      "names": {
+        "en": "Knuckle Shot",
+        "ptPT": "Folha Seca",
+        "ptBR": "Tiro de junta"
+      },
+      "count": 0
+    },
+    {
+      "id": 34,
+      "names": {
+        "en": "Long Ball Expert",
+        "ptPT": "Especialista em Bola Longa",
+        "ptBR": "Especialista em bola longa"
+      },
+      "count": 0
+    },
+    {
+      "id": 35,
+      "names": {
+        "en": "Long Range Drive",
+        "ptPT": "Condução de Longo Alcance",
+        "ptBR": "Condução de longo alcance"
+      },
+      "count": 0
+    },
+    {
+      "id": 36,
+      "names": {
+        "en": "Long Range Shooting",
+        "ptPT": "Remate de Longa Distância",
+        "ptBR": "Tiro de longo alcance"
+      },
+      "count": 0
+    },
+    {
+      "id": 37,
+      "names": {
+        "en": "Long Ranger",
+        "ptPT": "Atirador de Longa Distância",
+        "ptBR": "Longo Ranger"
+      },
+      "count": 0
+    },
+    {
+      "id": 38,
+      "names": {
+        "en": "Long Throw",
+        "ptPT": "Lançamento Longo",
+        "ptBR": "Lançamento Longo"
+      },
+      "count": 0
+    },
+    {
+      "id": 39,
+      "names": {
+        "en": "Long-Reach Tackle",
+        "ptPT": "Desarme de Longo Alcance",
+        "ptBR": "Equipamento de longo alcance"
+      },
+      "count": 0
+    },
+    {
+      "id": 40,
+      "names": {
+        "en": "Low Lofted Pass",
+        "ptPT": "Passe Alto Baixo",
+        "ptBR": "Passe Loft Baixo"
+      },
+      "count": 0
+    },
+    {
+      "id": 41,
+      "names": {
+        "en": "Low Punt Trajectory",
+        "ptPT": "Trajetória de Punt Baixa",
+        "ptBR": "Trajetória de punt baixo"
+      },
+      "count": 0
+    },
+    {
+      "id": 42,
+      "names": {
+        "en": "Low Screamer",
+        "ptPT": "Remate Rasteiro Potente",
+        "ptBR": "Gritador Baixo"
+      },
+      "count": 0
+    },
+    {
+      "id": 43,
+      "names": {
+        "en": "Magnetic Feet",
+        "ptPT": "Pés Magnéticos",
+        "ptBR": "Pés Magnéticos"
+      },
+      "count": 0
+    },
+    {
+      "id": 44,
+      "names": {
+        "en": "Man Marking",
+        "ptPT": "Marcação Individual",
+        "ptBR": "Marcação de Homem"
+      },
+      "count": 0
+    },
+    {
+      "id": 45,
+      "names": {
+        "en": "Marseille Turn",
+        "ptPT": "Giro de Marselha",
+        "ptBR": "Virada de Marselha"
+      },
+      "count": 0
+    },
+    {
+      "id": 46,
+      "names": {
+        "en": "Mazing Run",
+        "ptPT": "Corrida Labiríntica",
+        "ptBR": "Corrida Labirinto"
+      },
+      "count": 0
+    },
+    {
+      "id": 47,
+      "names": {
+        "en": "Momentum Dribbling",
+        "ptPT": "Drible com Ímpeto",
+        "ptBR": "Dribles dinâmicos"
+      },
+      "count": 0
+    },
+    {
+      "id": 48,
+      "names": {
+        "en": "No Look Pass",
+        "ptPT": "Passe sem Olhar",
+        "ptBR": "Sem passe de olhar"
+      },
+      "count": 0
+    },
+    {
+      "id": 49,
+      "names": {
+        "en": "One Touch Pass",
+        "ptPT": "Passe de Primeira",
+        "ptBR": "Passe com um toque"
+      },
+      "count": 0
+    },
+    {
+      "id": 50,
+      "names": {
+        "en": "Outside Curler",
+        "ptPT": "Trivela",
+        "ptBR": "Modelador externo"
+      },
+      "count": 0
+    },
+    {
+      "id": 51,
+      "names": {
+        "en": "Penalty Specialist",
+        "ptPT": "Especialista em Penáltis",
+        "ptBR": "Especialista em penalidades"
+      },
+      "count": 0
+    },
+    {
+      "id": 52,
+      "names": {
+        "en": "Phenomenal Finishing",
+        "ptPT": "Finalização Fenomenal",
+        "ptBR": "Acabamento Fenomenal"
+      },
+      "count": 0
+    },
+    {
+      "id": 53,
+      "names": {
+        "en": "Phenomenal Pass",
+        "ptPT": "Passe Fenomenal",
+        "ptBR": "Passe Fenomenal"
+      },
+      "count": 0
+    },
+    {
+      "id": 54,
+      "names": {
+        "en": "Pinpoint Crossing",
+        "ptPT": "Cruzamento Preciso",
+        "ptBR": "Identificar cruzamento"
+      },
+      "count": 0
+    },
+    {
+      "id": 55,
+      "names": {
+        "en": "Rabona",
+        "ptPT": "Rabona",
+        "ptBR": "Rabona"
+      },
+      "count": 0
+    },
+    {
+      "id": 56,
+      "names": {
+        "en": "Rising Shots",
+        "ptPT": "Remates Ascendentes",
+        "ptBR": "Tiros crescentes"
+      },
+      "count": 0
+    },
+    {
+      "id": 57,
+      "names": {
+        "en": "Scissors Feint",
+        "ptPT": "Finta de Tesoura",
+        "ptBR": "Finta de tesoura"
+      },
+      "count": 0
+    },
+    {
+      "id": 58,
+      "names": {
+        "en": "Scotch Move",
+        "ptPT": "Movimento Escocês",
+        "ptBR": "Movimento Escocês"
+      },
+      "count": 0
+    },
+    {
+      "id": 59,
+      "names": {
+        "en": "Sliding Tackle",
+        "ptPT": "Carrinho",
+        "ptBR": "Equipamento deslizante"
+      },
+      "count": 0
+    },
+    {
+      "id": 60,
+      "names": {
+        "en": "Sombrero",
+        "ptPT": "Chapéu",
+        "ptBR": "Sombrero"
+      },
+      "count": 0
+    },
+    {
+      "id": 61,
+      "names": {
+        "en": "Speeding Bullet",
+        "ptPT": "Bala Veloz",
+        "ptBR": "Bala em alta velocidade"
+      },
+      "count": 0
+    },
+    {
+      "id": 62,
+      "names": {
+        "en": "Step On Skill Control",
+        "ptPT": "Controlo com Sola",
+        "ptBR": "Passo no controle de habilidades"
+      },
+      "count": 0
+    },
+    {
+      "id": 63,
+      "names": {
+        "en": "Super Sub",
+        "ptPT": "Super Suplente",
+        "ptBR": "Super Sub"
+      },
+      "count": 0
+    },
+    {
+      "id": 64,
+      "names": {
+        "en": "Through Passing",
+        "ptPT": "Passe em Profundidade",
+        "ptBR": "Através da passagem"
+      },
+      "count": 0
+    },
+    {
+      "id": 65,
+      "names": {
+        "en": "Track Back",
+        "ptPT": "Recuperação Defensiva",
+        "ptBR": "Rastrear de volta"
+      },
+      "count": 0
+    },
+    {
+      "id": 66,
+      "names": {
+        "en": "Trickster",
+        "ptPT": "Malabarista",
+        "ptBR": "Malandro"
+      },
+      "count": 0
+    },
+    {
+      "id": 67,
+      "names": {
+        "en": "Visionary Pass",
+        "ptPT": "Passe Visionário",
+        "ptBR": "Passe Visionário"
+      },
+      "count": 0
+    },
+    {
+      "id": 68,
+      "names": {
+        "en": "Weighted Pass",
+        "ptPT": "Passe Ponderado",
+        "ptBR": "Passe Ponderado"
+      },
+      "count": 0
+    },
+    {
+      "id": 69,
+      "names": {
+        "en": "Willpower",
+        "ptPT": "Força de Vontade",
+        "ptBR": "Força de vontade"
+      },
+      "count": 0
+    },
+    {
+      "id": 70,
+      "names": {
+        "en": "Cut Behind & Turn",
+        "ptPT": "Corte Atrás e Giro",
+        "ptBR": "Corte Atrás e Giro"
+      },
+      "count": 0
+    }
+  ]
+}

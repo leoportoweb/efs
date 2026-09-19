@@ -1,0 +1,330 @@
+{
+  "version": "2.0.0",
+  "updated": "2026-09-19T11:29:14.029Z",
+  "skills": [
+    {
+      "id": 1,
+      "names": {
+        "en": "Double Touch",
+        "ptPT": "Toque Duplo",
+        "ptBR": "Pedalada simples"
+      },
+      "count": 0
+    },
+    {
+      "id": 2,
+      "names": {
+        "en": "Sombrero",
+        "ptPT": "Chapéu",
+        "ptBR": "Chapéu"
+      },
+      "count": 0
+    },
+    {
+      "id": 3,
+      "names": {
+        "en": "Cut Behind Turn",
+        "ptPT": "Corte Atrás",
+        "ptBR": "Corte com virada"
+      },
+      "count": 0
+    },
+    {
+      "id": 4,
+      "names": {
+        "en": "Heel Trick",
+        "ptPT": "Passe de Letra",
+        "ptBR": "Finta de letra"
+      },
+      "count": 0
+    },
+    {
+      "id": 5,
+      "names": {
+        "en": "Heading",
+        "ptPT": "Cabeceio",
+        "ptBR": "Cabeçada"
+      },
+      "count": 0
+    },
+    {
+      "id": 6,
+      "names": {
+        "en": "Chip Shot Control",
+        "ptPT": "Controlo de Chapéu",
+        "ptBR": "Controle da cavadinha"
+      },
+      "count": 0
+    },
+    {
+      "id": 7,
+      "names": {
+        "en": "Long Range Shooting",
+        "ptPT": "Remate de Longa Distância",
+        "ptBR": "Chute com o peito do pé"
+      },
+      "count": 0
+    },
+    {
+      "id": 8,
+      "names": {
+        "en": "Knuckle Shot",
+        "ptPT": "Folha Seca",
+        "ptBR": "Folha seca"
+      },
+      "count": 0
+    },
+    {
+      "id": 9,
+      "names": {
+        "en": "Rising Shots",
+        "ptPT": "Remates Ascendentes",
+        "ptBR": "Chute ascendente"
+      },
+      "count": 0
+    },
+    {
+      "id": 10,
+      "names": {
+        "en": "Acrobatic Finishing",
+        "ptPT": "Finalização Acrobática",
+        "ptBR": "Finalização acrobática"
+      },
+      "count": 0
+    },
+    {
+      "id": 11,
+      "names": {
+        "en": "First Time Shot",
+        "ptPT": "Remate de Primeira",
+        "ptBR": "Chute de primeira"
+      },
+      "count": 0
+    },
+    {
+      "id": 12,
+      "names": {
+        "en": "One Touch Pass",
+        "ptPT": "Passe de Primeira",
+        "ptBR": "Passe de primeira"
+      },
+      "count": 0
+    },
+    {
+      "id": 13,
+      "names": {
+        "en": "Through Passing",
+        "ptPT": "Passe em Profundidade",
+        "ptBR": "Passe em profundidade"
+      },
+      "count": 0
+    },
+    {
+      "id": 14,
+      "names": {
+        "en": "Weighted Pass",
+        "ptPT": "Passe Ponderado",
+        "ptBR": "Passe na medida"
+      },
+      "count": 0
+    },
+    {
+      "id": 15,
+      "names": {
+        "en": "Pinpoint Crossing",
+        "ptPT": "Cruzamento Preciso",
+        "ptBR": "Cruzamento preciso"
+      },
+      "count": 0
+    },
+    {
+      "id": 16,
+      "names": {
+        "en": "Outside Curler",
+        "ptPT": "Trivela",
+        "ptBR": "De letra"
+      },
+      "count": 0
+    },
+    {
+      "id": 17,
+      "names": {
+        "en": "No Look Pass",
+        "ptPT": "Passe sem Olhar",
+        "ptBR": "Passe sem olhar"
+      },
+      "count": 0
+    },
+    {
+      "id": 18,
+      "names": {
+        "en": "Low Lofted Pass",
+        "ptPT": "Passe Alto Baixo",
+        "ptBR": "Passe aéreo baixo"
+      },
+      "count": 0
+    },
+    {
+      "id": 19,
+      "names": {
+        "en": "GK Low Punt",
+        "ptPT": "GR Punt Baixo",
+        "ptBR": "Reposição baixa do GO"
+      },
+      "count": 0
+    },
+    {
+      "id": 20,
+      "names": {
+        "en": "GK High Punt",
+        "ptPT": "GR Punt Alto",
+        "ptBR": "Reposição alta do GO"
+      },
+      "count": 0
+    },
+    {
+      "id": 21,
+      "names": {
+        "en": "Long Throw",
+        "ptPT": "Lançamento Longo",
+        "ptBR": "Arremesso lateral longo"
+      },
+      "count": 0
+    },
+    {
+      "id": 22,
+      "names": {
+        "en": "GK Long Throw",
+        "ptPT": "GR Lançamento Longo",
+        "ptBR": "Arremesso longo do GO"
+      },
+      "count": 0
+    },
+    {
+      "id": 23,
+      "names": {
+        "en": "Penalty Specialist",
+        "ptPT": "Especialista em Penáltis",
+        "ptBR": "Especialista em pênalti"
+      },
+      "count": 0
+    },
+    {
+      "id": 24,
+      "names": {
+        "en": "GK Penalty Saver",
+        "ptPT": "GR Defesa de Penáltis",
+        "ptBR": "Pegador de pênaltis"
+      },
+      "count": 0
+    },
+    {
+      "id": 25,
+      "names": {
+        "en": "Gamesmanship",
+        "ptPT": "Jogos de Cintura",
+        "ptBR": "Malícia"
+      },
+      "count": 0
+    },
+    {
+      "id": 26,
+      "names": {
+        "en": "Man Marking",
+        "ptPT": "Marcação Individual",
+        "ptBR": "Marcação individual"
+      },
+      "count": 0
+    },
+    {
+      "id": 27,
+      "names": {
+        "en": "Track Back",
+        "ptPT": "Recuperação Defensiva",
+        "ptBR": "Volta para marcar"
+      },
+      "count": 0
+    },
+    {
+      "id": 28,
+      "names": {
+        "en": "Interception",
+        "ptPT": "Interceção",
+        "ptBR": "Interceptação"
+      },
+      "count": 0
+    },
+    {
+      "id": 29,
+      "names": {
+        "en": "Acrobatic Clear",
+        "ptPT": "Desvio Acrobático",
+        "ptBR": "Afastamento acrobático"
+      },
+      "count": 0
+    },
+    {
+      "id": 30,
+      "names": {
+        "en": "Captaincy",
+        "ptPT": "Capitania",
+        "ptBR": "Liderança"
+      },
+      "count": 0
+    },
+    {
+      "id": 31,
+      "names": {
+        "en": "Super Sub",
+        "ptPT": "Super Suplente",
+        "ptBR": "Super substituto"
+      },
+      "count": 0
+    },
+    {
+      "id": 32,
+      "names": {
+        "en": "Fighting Spirit",
+        "ptPT": "Espírito de Luta",
+        "ptBR": "Espírito guerreiro"
+      },
+      "count": 0
+    },
+    {
+      "id": 33,
+      "names": {
+        "en": "Blocker",
+        "ptPT": "Bloqueador",
+        "ptBR": "Bloqueador"
+      },
+      "count": 0
+    },
+    {
+      "id": 34,
+      "names": {
+        "en": "Aerial Superiority",
+        "ptPT": "Superioridade Aérea",
+        "ptBR": "Superioridade aérea"
+      },
+      "count": 0
+    },
+    {
+      "id": 35,
+      "names": {
+        "en": "Sliding Tackle",
+        "ptPT": "Carrinho",
+        "ptBR": "Carrinho"
+      },
+      "count": 0
+    },
+    {
+      "id": 36,
+      "names": {
+        "en": "Toque de Calcanhar",
+        "ptPT": "Toque de Calcanhar",
+        "ptBR": "Toque de calcanhar"
+      },
+      "count": 0
+    }
+  ]
+}
