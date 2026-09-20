@@ -7,7 +7,9 @@ let currentLang = 'ptPT';
 let currentSort = 'name';
 let currentSortDir = 'asc';
 let currentFilter = '';
-let showOnlyWithCount = false; // checkbox instead of dropdown
+let searchInputValue = ''; // separate from currentFilter
+let showOnlyWithCount = false;
+let controlsExpanded = false; // collapsible controls
 let editingSkillId = null;
 
 // Language labels
@@ -50,7 +52,9 @@ function loadPreferences() {
   currentSort = localStorage.getItem('efs_sort') || 'name';
   currentSortDir = localStorage.getItem('efs_sortDir') || 'asc';
   currentFilter = localStorage.getItem('efs_filter') || '';
+  searchInputValue = localStorage.getItem('efs_searchInput') || '';
   showOnlyWithCount = localStorage.getItem('efs_showOnlyWithCount') === 'true';
+  controlsExpanded = localStorage.getItem('efs_controlsExpanded') === 'true';
 }
 
 function savePreferences() {
@@ -58,7 +62,9 @@ function savePreferences() {
   localStorage.setItem('efs_sort', currentSort);
   localStorage.setItem('efs_sortDir', currentSortDir);
   localStorage.setItem('efs_filter', currentFilter);
+  localStorage.setItem('efs_searchInput', searchInputValue);
   localStorage.setItem('efs_showOnlyWithCount', showOnlyWithCount);
+  localStorage.setItem('efs_controlsExpanded', controlsExpanded);
 }
 
 function saveCounts() {
@@ -121,48 +127,63 @@ function render() {
             </svg>
             <span>eFootball Skills</span>
           </div>
-          <div class="total-badge" aria-live="polite">${total.toLocaleString()} total</div>
+          <div class="header-actions">
+            <div class="total-badge" aria-live="polite">${total.toLocaleString()} total</div>
+            <button class="controls-toggle" id="controls-toggle" aria-expanded="${controlsExpanded}" aria-controls="controls-panel" aria-label="${controlsExpanded ? 'Ocultar filtros e ordenação' : 'Mostrar filtros e ordenação'}">
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                ${controlsExpanded ? '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>' : '<line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>'}
+              </svg>
+            </button>
+          </div>
         </div>
 
-        <div class="controls">
-          <div class="control-group">
-            <label for="lang-select">Idioma</label>
-            <select id="lang-select" aria-label="Select language">
-              ${Object.entries(langLabels).map(([code, info]) => `
-                <option value="${code}" ${code === currentLang ? 'selected' : ''}>${info.native}</option>
-              `).join('')}
-            </select>
-          </div>
-
-          <div class="control-group search-wrapper">
-            <label for="search-input">Buscar</label>
-            <input type="search" id="search-input" placeholder="Filtrar por nome..." value="${escapeHtml(currentFilter)}" aria-label="Filter skills by name">
-          </div>
-
-          <label class="checkbox-wrapper" for="only-with-count">
-            <input type="checkbox" id="only-with-count" ${showOnlyWithCount ? 'checked' : ''} aria-label="Show only skills with count > 0">
-            <span>Apenas com contagem</span>
-          </label>
-
-          <div class="control-group" style="flex: 0 0 auto;">
-            <div class="sort-buttons" role="group" aria-label="Sort options">
-              <button class="sort-btn ${currentSort === 'name' ? 'active' : ''} ${currentSort === 'name' && currentSortDir === 'desc' ? 'desc' : ''}" data-sort="name" aria-pressed="${currentSort === 'name'}">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/></svg>
-                <span>Nome</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
-              </button>
-              <button class="sort-btn ${currentSort === 'count' ? 'active' : ''} ${currentSort === 'count' && currentSortDir === 'desc' ? 'desc' : ''}" data-sort="count" aria-pressed="${currentSort === 'count'}">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
-                <span>Qtd</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
-              </button>
+        <!-- Collapsible Controls Panel -->
+        <div class="controls-panel" id="controls-panel" ${controlsExpanded ? '' : 'hidden'}>
+          <div class="controls">
+            <div class="control-group">
+              <label for="lang-select">Idioma</label>
+              <select id="lang-select" aria-label="Select language">
+                ${Object.entries(langLabels).map(([code, info]) => `
+                  <option value="${code}" ${code === currentLang ? 'selected' : ''}>${info.native}</option>
+                `).join('')}
+              </select>
             </div>
-          </div>
 
-          <button class="btn-add" id="btn-add-skill" aria-label="Adicionar nova habilidade">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span>Nova habilidade</span>
-          </button>
+            <div class="control-group search-wrapper">
+              <label for="search-input">Buscar por nome</label>
+              <div class="search-input-group">
+                <input type="search" id="search-input" placeholder="Digite o nome..." value="${escapeHtml(searchInputValue)}" aria-label="Filtrar skills por nome">
+                <button class="btn-search" id="btn-search" aria-label="Aplicar filtro">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <label class="checkbox-wrapper" for="only-with-count">
+              <input type="checkbox" id="only-with-count" ${showOnlyWithCount ? 'checked' : ''} aria-label="Show only skills with count > 0">
+              <span>Apenas com contagem</span>
+            </label>
+
+            <div class="control-group" style="flex: 0 0 auto;">
+              <div class="sort-buttons" role="group" aria-label="Sort options">
+                <button class="sort-btn ${currentSort === 'name' ? 'active' : ''} ${currentSort === 'name' && currentSortDir === 'desc' ? 'desc' : ''}" data-sort="name" aria-pressed="${currentSort === 'name'}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/></svg>
+                  <span>Nome</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <button class="sort-btn ${currentSort === 'count' ? 'active' : ''} ${currentSort === 'count' && currentSortDir === 'desc' ? 'desc' : ''}" data-sort="count" aria-pressed="${currentSort === 'count'}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                  <span>Qtd</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <button class="btn-add" id="btn-add-skill" aria-label="Adicionar nova habilidade">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Nova habilidade</span>
+            </button>
+          </div>
         </div>
       </div>
     </header>
@@ -215,6 +236,13 @@ function render() {
 }
 
 function setupEventListeners() {
+  // Controls toggle
+  $('#controls-toggle')?.addEventListener('click', () => {
+    controlsExpanded = !controlsExpanded;
+    savePreferences();
+    render();
+  });
+
   // Language
   $('#lang-select')?.addEventListener('change', e => {
     currentLang = e.target.value;
@@ -222,15 +250,22 @@ function setupEventListeners() {
     render();
   });
 
-  // Search (debounced)
+  // Search input - update searchInputValue but don't filter yet
   const searchInput = $('#search-input');
   if (searchInput) {
-    searchInput.addEventListener('input', debounce(e => {
-      currentFilter = e.target.value;
-      savePreferences();
-      render();
-    }, 150));
+    searchInput.addEventListener('input', e => {
+      searchInputValue = e.target.value;
+    });
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        applySearch();
+      }
+    });
   }
+
+  // Search button
+  $('#btn-search')?.addEventListener('click', applySearch);
 
   // Checkbox filter
   $('#only-with-count')?.addEventListener('change', e => {
@@ -322,6 +357,12 @@ function setupEventListeners() {
 
   function closeAllMenus() {
     $$('.skill-menu.open').forEach(m => m.classList.remove('open'));
+  }
+
+  function applySearch() {
+    currentFilter = searchInputValue.trim();
+    savePreferences();
+    render();
   }
 
   // Add skill button
