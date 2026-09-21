@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = resolve(__filename, '..');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const PUBLIC_DIR = join(__dirname, 'dist');
 const SKILLS_FILE = join(PUBLIC_DIR, 'skills.json');

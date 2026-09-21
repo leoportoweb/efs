@@ -12,6 +12,7 @@ let showOnlyWithCount = false;
 let controlsExpanded = false; // collapsible controls
 let editingSkillId = null;
 let isSaving = false;
+let appVersion = '';
 
 // Language labels
 const langLabels = {
@@ -40,6 +41,7 @@ async function loadSkills() {
     const res = await fetch('/api/skills');
     const data = await res.json();
     skills = data.skills || [];
+    appVersion = data.version || '';
   } catch (e) {
     console.error('Failed to load skills:', e);
     skills = [];
@@ -235,7 +237,7 @@ function render() {
     </main>
 
     <footer class="footer" role="contentinfo">
-      <p>eFootball Skills Tracker</p>
+      <p>eFootball Skills Tracker${appVersion ? ` v${appVersion}` : ''}</p>
     </footer>
 
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
