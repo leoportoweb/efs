@@ -237,7 +237,7 @@ function render() {
     </main>
 
     <footer class="footer" role="contentinfo">
-      <p>eFootball Skills Tracker${appVersion ? ` v${appVersion}` : ''}</p>
+      <p>eFootball Skills Tracker - ${appVersion ? ` v${appVersion}` : ''}</p>
     </footer>
 
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
