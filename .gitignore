@@ -5,3 +5,5 @@ dist/
 *.local
 .env
 supabase/
+*.bak
+*.backup
