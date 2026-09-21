@@ -243,26 +243,70 @@ function render() {
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
   `;
 
-  // Re-bind events after render
-  setupEventListeners();
+  // Events are delegated, no need to re-bind on render
 }
 
 function setupEventListeners() {
-  // Controls toggle
-  $('#controls-toggle')?.addEventListener('click', () => {
-    controlsExpanded = !controlsExpanded;
-    savePreferences();
-    render();
+  const app = $('#app');
+  
+  // Delegated click handler for all buttons
+  app.addEventListener('click', e => {
+    // Controls toggle
+    if (e.target.closest('#controls-toggle')) {
+      controlsExpanded = !controlsExpanded;
+      savePreferences();
+      render();
+      return;
+    }
+
+    // Search button
+    if (e.target.closest('#btn-search')) {
+      applySearch();
+      return;
+    }
+
+    // Add skill button
+    if (e.target.closest('#btn-add-skill')) {
+      openEditModal(null);
+      return;
+    }
+
+    // Action buttons (inc/dec)
+    const actionBtn = e.target.closest('.action-btn');
+    if (actionBtn) {
+      const id = parseInt(actionBtn.dataset.id);
+      const action = actionBtn.dataset.action;
+      if (action === 'inc') changeCount(id, 1);
+      else if (action === 'dec') changeCount(id, -1);
+      return;
+    }
+
+    // Menu buttons (edit/delete)
+    const menuBtn = e.target.closest('.menu-btn');
+    if (menuBtn) {
+      e.stopPropagation();
+      const id = parseInt(menuBtn.dataset.id);
+      const action = menuBtn.dataset.action;
+      if (action === 'edit') openEditModal(id);
+      else if (action === 'delete') confirmDelete(id);
+      closeAllMenus();
+      return;
+    }
+
+    // Click outside to close menus
+    if (!e.target.closest('.skill-menu')) {
+      closeAllMenus();
+    }
   });
 
-  // Language
+  // Language change
   $('#lang-select')?.addEventListener('change', e => {
     currentLang = e.target.value;
     savePreferences();
     render();
   });
 
-  // Search input - update searchInputValue but don't filter yet
+  // Search input
   const searchInput = $('#search-input');
   if (searchInput) {
     searchInput.addEventListener('input', e => {
@@ -276,9 +320,6 @@ function setupEventListeners() {
     });
   }
 
-  // Search button
-  $('#btn-search')?.addEventListener('click', applySearch);
-
   // Checkbox filter
   $('#only-with-count')?.addEventListener('change', e => {
     showOnlyWithCount = e.target.checked;
@@ -287,9 +328,10 @@ function setupEventListeners() {
   });
 
   // Sort buttons
-  $$('.sort-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const sort = btn.dataset.sort;
+  app.addEventListener('click', e => {
+    const sortBtn = e.target.closest('.sort-btn');
+    if (sortBtn) {
+      const sort = sortBtn.dataset.sort;
       if (currentSort === sort) {
         currentSortDir = currentSortDir === 'asc' ? 'desc' : 'asc';
       } else {
@@ -298,74 +340,50 @@ function setupEventListeners() {
       }
       savePreferences();
       render();
-    });
+    }
   });
 
-  // Action buttons (inc/dec)
-  $$('.action-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = parseInt(btn.dataset.id);
-      const action = btn.dataset.action;
-      if (action === 'inc') changeCount(id, 1);
-      else if (action === 'dec') changeCount(id, -1);
-    });
-  });
-
-  // Menu buttons (edit/delete) - click for desktop
-  $$('.menu-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      const id = parseInt(btn.dataset.id);
-      const action = btn.dataset.action;
-      if (action === 'edit') openEditModal(id);
-      else if (action === 'delete') confirmDelete(id);
-      closeAllMenus();
-    });
-  });
-
-  // Mobile: long-press on skill card to open menu
+  // Long press for mobile menus
   let longPressTimer = null;
   let longPressCard = null;
 
-  $$('.skill-card').forEach(card => {
+  app.addEventListener('touchstart', e => {
+    const card = e.target.closest('.skill-card');
+    if (!card || e.target.closest('button')) return;
+    
     const menu = card.querySelector('.skill-menu');
     if (!menu) return;
 
-    const startLongPress = (e) => {
-      // Don't trigger on buttons
-      if (e.target.closest('button')) return;
-      
-      longPressTimer = setTimeout(() => {
-        closeAllMenus();
-        menu.classList.add('open');
-        longPressCard = card;
-        // Haptic feedback if available
-        if (navigator.vibrate) navigator.vibrate(10);
-      }, 500);
-    };
+    longPressTimer = setTimeout(() => {
+      closeAllMenus();
+      menu.classList.add('open');
+      longPressCard = card;
+      if (navigator.vibrate) navigator.vibrate(10);
+    }, 500);
+  }, { passive: true });
 
-    const cancelLongPress = () => {
-      clearTimeout(longPressTimer);
-    };
+  const cancelLongPress = () => clearTimeout(longPressTimer);
+  app.addEventListener('touchend', cancelLongPress);
+  app.addEventListener('touchmove', cancelLongPress);
+  app.addEventListener('touchcancel', cancelLongPress);
 
-    // Touch events
-    card.addEventListener('touchstart', startLongPress, { passive: true });
-    card.addEventListener('touchend', cancelLongPress);
-    card.addEventListener('touchmove', cancelLongPress);
-    card.addEventListener('touchcancel', cancelLongPress);
+  // Mouse long-press for desktop
+  app.addEventListener('mousedown', e => {
+    const card = e.target.closest('.skill-card');
+    if (!card || e.target.closest('button')) return;
+    
+    const menu = card.querySelector('.skill-menu');
+    if (!menu) return;
 
-    // Mouse events (for desktop long-press too)
-    card.addEventListener('mousedown', startLongPress);
-    card.addEventListener('mouseup', cancelLongPress);
-    card.addEventListener('mouseleave', cancelLongPress);
-
-    // Click outside to close
-    card.addEventListener('click', (e) => {
-      if (!e.target.closest('.menu-btn') && !e.target.closest('.action-btn')) {
-        closeAllMenus();
-      }
-    });
+    longPressTimer = setTimeout(() => {
+      closeAllMenus();
+      menu.classList.add('open');
+      longPressCard = card;
+    }, 500);
   });
+
+  app.addEventListener('mouseup', cancelLongPress);
+  app.addEventListener('mouseleave', cancelLongPress);
 
   function closeAllMenus() {
     $$('.skill-menu.open').forEach(m => m.classList.remove('open'));
@@ -376,9 +394,6 @@ function setupEventListeners() {
     savePreferences();
     render();
   }
-
-  // Add skill button
-  $('#btn-add-skill')?.addEventListener('click', () => openEditModal(null));
 }
 
 function debounce(fn, ms) {
