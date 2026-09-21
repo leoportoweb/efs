@@ -1,5 +1,5 @@
 import express from 'express';
-import { readFile, writeFile, copyFile, access, constants } from 'fs/promises';
+import { createClient } from '@supabase/supabase-js';
 import { join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -10,30 +10,50 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 const PUBLIC_DIR = join(__dirname, 'dist');
-const SKILLS_FILE = join(PUBLIC_DIR, 'skills.json');
-const BACKUP_FILE = join(PUBLIC_DIR, 'skills.json.bak');
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SECRET_KEY;
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('Missing SUPABASE_URL or SUPABASE_SECRET_KEY environment variables');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+  auth: { persistSession: false }
+});
 
 app.use(express.json());
 app.use(express.static(PUBLIC_DIR));
 
-async function ensureBackup() {
-  try {
-    await access(SKILLS_FILE, constants.F_OK);
-    await copyFile(SKILLS_FILE, BACKUP_FILE);
-    console.log('Backup created:', BACKUP_FILE);
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      console.log('No skills.json to backup');
-    } else {
-      console.error('Backup failed:', err);
-    }
-  }
+async function fetchSkills() {
+  const { data, error } = await supabase
+    .from('skills')
+    .select('id, name_en, name_ptpt, name_ptbr, count')
+    .order('id', { ascending: true });
+
+  if (error) throw error;
+
+  return data.map(s => ({
+    id: s.id,
+    names: {
+      en: s.name_en,
+      ptPT: s.name_ptpt,
+      ptBR: s.name_ptbr
+    },
+    count: s.count
+  }));
 }
 
 app.get('/api/skills', async (req, res) => {
   try {
-    const data = await readFile(SKILLS_FILE, 'utf8');
-    res.json(JSON.parse(data));
+    const skills = await fetchSkills();
+    const data = {
+      version: '3.0.0',
+      updated: new Date().toISOString(),
+      skills
+    };
+    res.json(data);
   } catch (err) {
     console.error('Error reading skills:', err);
     res.status(500).json({ error: 'Failed to read skills' });
@@ -42,22 +62,32 @@ app.get('/api/skills', async (req, res) => {
 
 app.put('/api/skills', async (req, res) => {
   try {
-    await ensureBackup();
-    
     const { skills, version, updated } = req.body;
     if (!Array.isArray(skills)) {
       return res.status(400).json({ error: 'Invalid data: skills must be an array' });
     }
-    
-    const data = {
-      version: version || '2.0.0',
-      updated: updated || new Date().toISOString(),
-      skills
-    };
-    
-    await writeFile(SKILLS_FILE, JSON.stringify(data, null, 2), 'utf8');
+
+    const updates = skills.map(s => ({
+      id: s.id,
+      name_en: s.names.en,
+      name_ptpt: s.names.ptPT,
+      name_ptbr: s.names.ptBR,
+      count: s.count,
+      updated_at: new Date().toISOString()
+    }));
+
+    const { error } = await supabase
+      .from('skills')
+      .upsert(updates, { onConflict: 'id' });
+
+    if (error) throw error;
+
     console.log('Skills updated:', new Date().toISOString());
-    res.json({ success: true, data });
+    const updatedSkills = await fetchSkills();
+    res.json({ 
+      success: true, 
+      data: { version: version || '3.0.0', updated: updated || new Date().toISOString(), skills: updatedSkills }
+    });
   } catch (err) {
     console.error('Error writing skills:', err);
     res.status(500).json({ error: 'Failed to write skills' });
@@ -65,12 +95,7 @@ app.put('/api/skills', async (req, res) => {
 });
 
 app.get('/api/skills/backup', async (req, res) => {
-  try {
-    const data = await readFile(BACKUP_FILE, 'utf8');
-    res.json(JSON.parse(data));
-  } catch (err) {
-    res.status(404).json({ error: 'No backup found' });
-  }
+  res.status(404).json({ error: 'Backup not available with Supabase' });
 });
 
 app.get('*', (req, res) => {
