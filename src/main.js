@@ -11,6 +11,7 @@ let searchInputValue = ''; // separate from currentFilter
 let showOnlyWithCount = false;
 let controlsExpanded = false; // collapsible controls
 let editingSkillId = null;
+let isSaving = false;
 
 // Language labels
 const langLabels = {
@@ -36,11 +37,9 @@ async function init() {
 
 async function loadSkills() {
   try {
-    const res = await fetch('/skills.json');
+    const res = await fetch('/api/skills');
     const data = await res.json();
     skills = data.skills || [];
-    const savedCounts = JSON.parse(localStorage.getItem('efs_counts') || '{}');
-    skills.forEach(s => { if (savedCounts[s.id] !== undefined) s.count = savedCounts[s.id]; });
   } catch (e) {
     console.error('Failed to load skills:', e);
     skills = [];
@@ -67,10 +66,21 @@ function savePreferences() {
   localStorage.setItem('efs_controlsExpanded', controlsExpanded);
 }
 
-function saveCounts() {
-  const counts = {};
-  skills.forEach(s => { counts[s.id] = s.count; });
-  localStorage.setItem('efs_counts', JSON.stringify(counts));
+async function saveSkills() {
+  if (isSaving) return;
+  isSaving = true;
+  try {
+    await fetch('/api/skills', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ skills })
+    });
+  } catch (e) {
+    console.error('Failed to save skills:', e);
+    showToast('Erro ao salvar dados no servidor', 'error');
+  } finally {
+    isSaving = false;
+  }
 }
 
 function getSkillName(skill) {
@@ -383,7 +393,7 @@ function changeCount(id, delta) {
   const newCount = Math.max(0, Math.min(999, skill.count + delta));
   if (newCount !== skill.count) {
     skill.count = newCount;
-    saveCounts();
+    saveSkills();
     render();
   }
 }
@@ -488,7 +498,7 @@ function saveSkill(id) {
     showToast('Habilidade criada', 'success');
   }
 
-  saveCounts();
+  saveSkills();
   render();
 }
 
@@ -499,7 +509,7 @@ function confirmDelete(id) {
   if (!confirm(`Excluir "${getSkillName(skill)}"? Esta ação não pode ser desfeita.`)) return;
 
   skills = skills.filter(s => s.id !== id);
-  saveCounts();
+  saveSkills();
   render();
   showToast('Habilidade excluída', 'success');
 }
