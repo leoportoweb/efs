@@ -38,7 +38,7 @@ async function init() {
 
 async function loadSkills() {
   try {
-    const res = await fetch('/api/skills');
+    const res = await fetch('/skills.json');
     const data = await res.json();
     skills = data.skills || [];
     appVersion = data.version || '';
