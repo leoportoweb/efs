@@ -360,10 +360,13 @@ function setupEventListeners() {
   });
 
   // Language change
-  $('#lang-select')?.addEventListener('change', e => {
-    currentLang = e.target.value;
-    savePreferences();
-    render();
+  app.addEventListener('change', e => {
+    if (e.target.id === 'lang-select') {
+      currentLang = e.target.value;
+      savePreferences();
+      render();
+      return;
+    }
   });
 
   // Search input
