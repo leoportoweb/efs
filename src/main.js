@@ -109,37 +109,57 @@ function savePreferences() {
 
 async function saveSkills() {
   if (isSaving) return;
-  
-  if (!supabase) {
-    showToast('Erro na conexão com a base de dados', 'error');
-    isSaving = false;
-    return;
-  }
-  
   isSaving = true;
+  
+  // Try API endpoint first (works with service role key on backend)
   try {
-    const updates = skills.map(s => ({
-      id: s.id,
-      name_en: s.names.en,
-      name_ptpt: s.names.ptPT,
-      name_ptbr: s.names.ptBR,
-      count: s.count,
-      updated_at: new Date().toISOString()
-    }));
-
-    const { error } = await supabase
-      .from('skills')
-      .upsert(updates, { onConflict: 'id' });
-
-    if (error) throw error;
-
-    console.log('Skills updated in Supabase:', new Date().toISOString());
+    const response = await fetch('/api/skills', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        skills: skills,
+        version: appVersion,
+        updated: new Date().toISOString()
+      })
+    });
+    
+    if (response.ok) {
+      console.log('Skills updated via API');
+      isSaving = false;
+      return;
+    }
   } catch (e) {
-    console.error('Failed to save skills:', e);
-    showToast('Erro ao salvar dados no Supabase', 'error');
-  } finally {
-    isSaving = false;
+    console.warn('API save failed, trying direct Supabase:', e);
   }
+  
+  // Fallback to direct Supabase client
+  if (supabase) {
+    try {
+      const updates = skills.map(s => ({
+        id: s.id,
+        name_en: s.names.en,
+        name_ptpt: s.names.ptPT,
+        name_ptbr: s.names.ptBR,
+        count: s.count,
+        updated_at: new Date().toISOString()
+      }));
+
+      const { error } = await supabase
+        .from('skills')
+        .upsert(updates, { onConflict: 'id' });
+
+      if (error) throw error;
+
+      console.log('Skills updated in Supabase:', new Date().toISOString());
+      isSaving = false;
+      return;
+    } catch (e) {
+      console.error('Failed to save skills:', e);
+    }
+  }
+  
+  showToast('Erro ao salvar dados no Supabase', 'error');
+  isSaving = false;
 }
 
 function getSkillName(skill) {
