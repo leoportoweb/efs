@@ -13,7 +13,7 @@
     "generate:skills": "node scripts/generate-skills.cjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.116.0",
+    "@supabase/supabase-js": "^2.117.3",
     "express": "^4.19.2"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
 // eFootball Skills Tracker - Main Application
 import './style.css';
+import { createClient } from '@supabase/supabase-js';
 
 // State
 let skills = [];
@@ -12,7 +13,16 @@ let showOnlyWithCount = false;
 let controlsExpanded = false; // collapsible controls
 let editingSkillId = null;
 let isSaving = false;
-let appVersion = '';
+let appVersion = '3.0.0';
+
+// Supabase client
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+let supabase = null;
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey);
+}
 
 // Language labels
 const langLabels = {
@@ -37,11 +47,29 @@ async function init() {
 }
 
 async function loadSkills() {
+  if (!supabase) {
+    console.error('Supabase not configured');
+    skills = [];
+    return;
+  }
+  
   try {
-    const res = await fetch('/api/skills');
-    const data = await res.json();
-    skills = data.skills || [];
-    appVersion = data.version || '';
+    const { data, error } = await supabase
+      .from('skills')
+      .select('id, name_en, name_ptpt, name_ptbr, count')
+      .order('id', { ascending: true });
+
+    if (error) throw error;
+
+    skills = (data || []).map(s => ({
+      id: s.id,
+      names: {
+        en: s.name_en,
+        ptPT: s.name_ptpt,
+        ptBR: s.name_ptbr
+      },
+      count: s.count
+    }));
   } catch (e) {
     console.error('Failed to load skills:', e);
     skills = [];
@@ -70,16 +98,32 @@ function savePreferences() {
 
 async function saveSkills() {
   if (isSaving) return;
+  if (!supabase) {
+    showToast('Supabase not configured', 'error');
+    isSaving = false;
+    return;
+  }
   isSaving = true;
   try {
-    await fetch('/api/skills', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ skills })
-    });
+    const updates = skills.map(s => ({
+      id: s.id,
+      name_en: s.names.en,
+      name_ptpt: s.names.ptPT,
+      name_ptbr: s.names.ptBR,
+      count: s.count,
+      updated_at: new Date().toISOString()
+    }));
+
+    const { error } = await supabase
+      .from('skills')
+      .upsert(updates, { onConflict: 'id' });
+
+    if (error) throw error;
+
+    console.log('Skills updated:', new Date().toISOString());
   } catch (e) {
     console.error('Failed to save skills:', e);
-    showToast('Erro ao salvar dados no servidor', 'error');
+    showToast('Erro ao salvar dados no Supabase', 'error');
   } finally {
     isSaving = false;
   }
