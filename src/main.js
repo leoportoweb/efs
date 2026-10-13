@@ -160,8 +160,8 @@ async function saveSkills() {
     }
   }
   
+  // Ensure toast is shown and UI reverts - isSaving is already false
   showToast('Erro ao salvar dados no Supabase', 'error');
-  isSaving = false;
   return false;
 }
 
