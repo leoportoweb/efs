@@ -127,9 +127,11 @@ async function saveSkills() {
       console.log('Skills updated via API');
       isSaving = false;
       return true;
+    } else {
+      console.error('API save failed with status:', response.status);
     }
   } catch (e) {
-    console.warn('API save failed, trying direct Supabase:', e);
+    console.warn('API save failed (network error), trying direct Supabase:', e);
   }
   
   // Fallback to direct Supabase client
