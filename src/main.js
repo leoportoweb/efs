@@ -13,7 +13,8 @@ let showOnlyWithCount = false;
 let controlsExpanded = false; // collapsible controls
 let editingSkillId = null;
 let isSaving = false;
-let appVersion = '3.0.0';
+let dbError = false; // true if database connection error
+let appVersion = '3.0.1'; // Updated version
 
 // Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -47,8 +48,11 @@ async function init() {
 }
 
 async function loadSkills() {
+  dbError = false;
+  
   if (!supabase) {
     console.error('Supabase not configured');
+    dbError = true;
     skills = [];
     return;
   }
@@ -59,7 +63,12 @@ async function loadSkills() {
       .select('id, name_en, name_ptpt, name_ptbr, count')
       .order('id', { ascending: true });
 
-    if (error) throw error;
+    if (error) {
+      console.error('Failed to load from Supabase:', error);
+      dbError = true;
+      skills = [];
+      return;
+    }
 
     skills = (data || []).map(s => ({
       id: s.id,
@@ -70,8 +79,10 @@ async function loadSkills() {
       },
       count: s.count
     }));
+    dbError = false;
   } catch (e) {
-    console.error('Failed to load skills:', e);
+    console.error('Failed to load from Supabase:', e);
+    dbError = true;
     skills = [];
   }
 }
@@ -98,11 +109,13 @@ function savePreferences() {
 
 async function saveSkills() {
   if (isSaving) return;
+  
   if (!supabase) {
-    showToast('Supabase not configured', 'error');
+    showToast('Erro na conexão com a base de dados', 'error');
     isSaving = false;
     return;
   }
+  
   isSaving = true;
   try {
     const updates = skills.map(s => ({
@@ -120,7 +133,7 @@ async function saveSkills() {
 
     if (error) throw error;
 
-    console.log('Skills updated:', new Date().toISOString());
+    console.log('Skills updated in Supabase:', new Date().toISOString());
   } catch (e) {
     console.error('Failed to save skills:', e);
     showToast('Erro ao salvar dados no Supabase', 'error');
@@ -251,8 +264,8 @@ function render() {
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             <line x1="8.6" y1="8.6" x2="15.4" y2="15.4"/><line x1="15.4" y1="8.6" x2="8.6" y2="15.4"/>
           </svg>
-          <h3>Nenhuma habilidade encontrada</h3>
-          <p>${currentFilter || showOnlyWithCount ? 'Tente ajustar os filtros ou a busca' : 'Adicione a primeira habilidade para começar'}</p>
+          <h3>${dbError ? 'Erro na conexão com a base de dados' : 'Nenhuma habilidade encontrada'}</h3>
+          <p>${dbError ? 'Não foi possível conectar ao Supabase.' : (currentFilter || showOnlyWithCount ? 'Tente ajustar os filtros ou a busca' : 'Adicione a primeira habilidade para começar')}</p>
         </div>
       ` : `
         <div class="skills-grid" role="list" aria-label="Skills list">
@@ -281,7 +294,7 @@ function render() {
     </main>
 
     <footer class="footer" role="contentinfo">
-      <p>eFootball Skills Tracker - ${appVersion ? ` v${appVersion}` : ''}</p>
+      <p>eFootball Skills Tracker v${appVersion}</p>
     </footer>
 
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
