@@ -110,6 +110,7 @@ function savePreferences() {
 async function saveSkills() {
   if (isSaving) return false;
   isSaving = true;
+  let success = false;
   
   // Try API endpoint first (works with service role key on backend)
   try {
@@ -125,8 +126,7 @@ async function saveSkills() {
     
     if (response.ok) {
       console.log('Skills updated via API');
-      isSaving = false;
-      return true;
+      success = true;
     } else {
       console.error('API save failed with status:', response.status);
     }
@@ -134,8 +134,8 @@ async function saveSkills() {
     console.warn('API save failed (network error), trying direct Supabase:', e);
   }
   
-  // Fallback to direct Supabase client
-  if (supabase) {
+  // Fallback to direct Supabase client if API failed
+  if (!success && supabase) {
     try {
       const updates = skills.map(s => ({
         id: s.id,
@@ -153,16 +153,17 @@ async function saveSkills() {
       if (error) throw error;
 
       console.log('Skills updated in Supabase:', new Date().toISOString());
-      isSaving = false;
-      return true;
+      success = true;
     } catch (e) {
       console.error('Failed to save skills:', e);
     }
   }
   
-  // Ensure toast is shown and UI reverts - isSaving is already false
-  showToast('Erro ao salvar dados no Supabase', 'error');
-  return false;
+  isSaving = false;
+  if (!success) {
+    showToast('Erro ao salvar dados no Supabase', 'error');
+  }
+  return success;
 }
 
 function getSkillName(skill) {
