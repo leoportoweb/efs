@@ -14,7 +14,7 @@ let controlsExpanded = false; // collapsible controls
 let editingSkillId = null;
 let isSaving = false;
 let dbError = false; // true if database connection error
-let appVersion = '3.0.2'; // Updated version
+let appVersion = '3.0.3'; // Updated version
 
 // Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -112,30 +112,7 @@ async function saveSkills() {
   isSaving = true;
   let success = false;
   
-  // Try API endpoint first (works with service role key on backend)
-  try {
-    const response = await fetch('/api/skills', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        skills: skills,
-        version: appVersion,
-        updated: new Date().toISOString()
-      })
-    });
-    
-    if (response.ok) {
-      console.log('Skills updated via API');
-      success = true;
-    } else {
-      console.error('API save failed with status:', response.status);
-    }
-  } catch (e) {
-    console.warn('API save failed (network error), trying direct Supabase:', e);
-  }
-  
-  // Fallback to direct Supabase client if API failed
-  if (!success && supabase) {
+  if (supabase) {
     try {
       const updates = skills.map(s => ({
         id: s.id,
@@ -157,11 +134,13 @@ async function saveSkills() {
     } catch (e) {
       console.error('Failed to save skills:', e);
     }
+  } else {
+    console.error('Supabase not configured');
   }
   
   isSaving = false;
   if (!success) {
-    showToast('Erro ao salvar dados no Supabase', 'error');
+    showToast('Erro ao guardar. Verifique as permissões do Supabase (RLS).', 'error');
   }
   return success;
 }
