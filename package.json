@@ -1,6 +1,6 @@
 {
   "name": "efootball-skills-pwa",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "eFootball Skills Tracker PWA",
   "type": "module",
   "scripts": {

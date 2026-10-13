@@ -14,7 +14,7 @@ let controlsExpanded = false; // collapsible controls
 let editingSkillId = null;
 let isSaving = false;
 let dbError = false; // true if database connection error
-let appVersion = '3.0.1'; // Updated version
+let appVersion = '3.0.2'; // Updated version
 
 // Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -108,7 +108,7 @@ function savePreferences() {
 }
 
 async function saveSkills() {
-  if (isSaving) return;
+  if (isSaving) return false;
   isSaving = true;
   
   // Try API endpoint first (works with service role key on backend)
@@ -126,7 +126,7 @@ async function saveSkills() {
     if (response.ok) {
       console.log('Skills updated via API');
       isSaving = false;
-      return;
+      return true;
     }
   } catch (e) {
     console.warn('API save failed, trying direct Supabase:', e);
@@ -152,7 +152,7 @@ async function saveSkills() {
 
       console.log('Skills updated in Supabase:', new Date().toISOString());
       isSaving = false;
-      return;
+      return true;
     } catch (e) {
       console.error('Failed to save skills:', e);
     }
@@ -160,6 +160,7 @@ async function saveSkills() {
   
   showToast('Erro ao salvar dados no Supabase', 'error');
   isSaving = false;
+  return false;
 }
 
 function getSkillName(skill) {
@@ -484,11 +485,18 @@ function debounce(fn, ms) {
 function changeCount(id, delta) {
   const skill = skills.find(s => s.id === id);
   if (!skill) return;
+  const oldCount = skill.count;
   const newCount = Math.max(0, Math.min(999, skill.count + delta));
   if (newCount !== skill.count) {
     skill.count = newCount;
-    saveSkills();
-    render();
+    saveSkills().then(success => {
+      if (!success) {
+        skill.count = oldCount;
+        render();
+      } else {
+        render();
+      }
+    });
   }
 }
 
@@ -578,8 +586,18 @@ function saveSkill(id) {
     const skill = skills.find(s => s.id === id);
     if (skill) {
       skill.names = { en, ptPT, ptBR };
+      const oldCount = skill.count;
       skill.count = Math.max(0, Math.min(999, count));
-      showToast('Habilidade atualizada', 'success');
+      saveSkills().then(success => {
+        if (!success) {
+          skill.count = oldCount;
+          render();
+          return;
+        }
+        showToast('Habilidade atualizada', 'success');
+        render();
+      });
+      return;
     }
   } else {
     // Add new
@@ -589,11 +607,17 @@ function saveSkill(id) {
       count: 0
     };
     skills.push(newSkill);
-    showToast('Habilidade criada', 'success');
+    saveSkills().then(success => {
+      if (!success) {
+        skills = skills.filter(s => s.id !== newSkill.id);
+        render();
+        return;
+      }
+      showToast('Habilidade criada', 'success');
+      render();
+    });
+    return;
   }
-
-  saveSkills();
-  render();
 }
 
 function confirmDelete(id) {
